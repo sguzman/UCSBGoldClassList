@@ -29,7 +29,9 @@ javacOptions in Scope.Global ++= Seq("-source", "1.8", "-target", "1.8")
 /** Resolver */
 resolvers in Scope.Global ++= Seq(
   "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  "Search Maven" at "https://repo1.maven.org/maven2/"
+  "Search Maven" at "https://repo1.maven.org/maven2/",
+  "Central Maven" at "http://central.maven.org/maven2/",
+  "Sonatype" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
 /** Source Dependencies */
