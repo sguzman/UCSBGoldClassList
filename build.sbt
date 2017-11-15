@@ -36,7 +36,8 @@ resolvers in Scope.Global ++= Seq(
 libraryDependencies in Scope.Global ++= Seq(
   "net.ruippeixotog" % "scala-scraper_2.12" % "2.0.0",
   "com.beust" % "jcommander" % "1.72",
-  "com.google.code.gson" % "gson" % "2.8.2"
+  "com.google.code.gson" % "gson" % "2.8.2",
+  "org.scalatest" % "scalatest_2.12" % "3.2.0-SNAP9" % "test"
 )
 
 /** Should tasks be executed in parallel */
