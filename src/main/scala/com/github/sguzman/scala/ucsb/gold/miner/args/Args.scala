@@ -31,10 +31,10 @@ class Args {
   @Parameter(
     names = Array("-o", "--old", "--oldfart"),
     description = "Is the account an old student?",
-    arity = 1,
-    echoInput = false,
+    arity = 0,
+    echoInput = true,
     hidden = false,
-    required = true,
+    required = false,
     password = false,
     help = false,
     order = 3
@@ -45,7 +45,7 @@ class Args {
     names = Array("-h", "--help", "--helpme"),
     description = "Show this menu",
     arity = 0,
-    echoInput = false,
+    echoInput = true,
     hidden = false,
     required = false,
     password = false,
