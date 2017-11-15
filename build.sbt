@@ -39,6 +39,7 @@ libraryDependencies ++= Seq(
   "org.jsoup" % "jsoup" % "1.11.1",
   "com.beust" % "jcommander" % "1.72",
   "com.google.code.gson" % "gson" % "2.8.2",
+  "org.apache.httpcomponents" % "httpclient" % "4.5.3",
   "org.scalatest" % "scalatest_2.12" % "3.2.0-SNAP9" % "test"
 )
 
