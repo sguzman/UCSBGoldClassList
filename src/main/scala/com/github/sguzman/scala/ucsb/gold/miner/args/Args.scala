@@ -30,12 +30,12 @@ class Args {
 
   @Parameter(
     names = Array("-o", "--old", "--oldfart"),
-    description = "UCSB GOLD password",
+    description = "Is the account an old student?",
     arity = 1,
     echoInput = false,
     hidden = false,
     required = true,
-    password = true,
+    password = false,
     help = false,
     order = 3
   )
@@ -43,12 +43,12 @@ class Args {
 
   @Parameter(
     names = Array("-h", "--help", "--helpme"),
-    description = "UCSB GOLD password",
-    arity = 1,
+    description = "Show this menu",
+    arity = 0,
     echoInput = false,
     hidden = false,
-    required = true,
-    password = true,
+    required = false,
+    password = false,
     help = true,
     order = 4
   )
