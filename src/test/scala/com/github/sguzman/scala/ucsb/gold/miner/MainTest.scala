@@ -1,11 +1,13 @@
 package com.github.sguzman.scala.ucsb.gold.miner
 
+import org.scalatest.Assertions
+
 class MainTest extends org.scalatest.FunSuite {
   test("A test should succeed") {
-    assert(condition = true)
+    Assertions.assert(true)
   }
 
   test("A test should succeed twice") {
-    assert(condition = true)
+    Assertions.assert(true)
   }
 }
