@@ -1,5 +1,7 @@
 # UCSB GOLD Miner
+
 A scala project that retrieves UCSB classes from GOLD
+
 ![A scala project](https://i.imgur.com/VdpZ4YQ.png)
 [![HitCount](http://hits.dwyl.io/sguzman/UCSBGoldMiner.svg)](http://hits.dwyl.io/sguzman/UCSBGoldMiner)
 ![Travis CI](https://travis-ci.org/sguzman/UCSBGoldMiner.svg?branch=master)
