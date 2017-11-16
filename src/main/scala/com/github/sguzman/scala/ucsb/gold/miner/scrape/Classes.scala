@@ -28,14 +28,18 @@ object Classes {
 
     val resp = client.execute(get)
     val body = EntityUtils.toString(resp.getEntity)
-    body
-  }
+    val jsoup = Jsoup.parse(body)
 
-  private def years = {
-    val la = ZoneId.of("America/Los_Angeles")
-    val zonedDateTime = ZonedDateTime.now(la)
-    val currentYear = zonedDateTime.getYear
-    List(0 to currentYear: _*)
+    val id = "pageContent_subjectAreaDropDown"
+
+    val selectDepts = jsoup.select(s"#$id > option").asScala
+    val deptOptions = for (d <- selectDepts) yield s"${d.text}"
+
+    val inner = deptOptions.tail.toList
+    val departments = inner.map(_.split(" - "))
+    val deptTuples = departments.map(d => (d.head, d.last))
+
+    deptTuples
   }
 
   private def years =
