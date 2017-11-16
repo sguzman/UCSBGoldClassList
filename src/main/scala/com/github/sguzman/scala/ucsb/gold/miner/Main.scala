@@ -3,8 +3,8 @@ package com.github.sguzman.scala.ucsb.gold.miner
 import com.beust.jcommander.JCommander
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
 import com.github.sguzman.scala.ucsb.gold.miner.filter.CourseFilter
-import com.github.sguzman.scala.ucsb.gold.miner.login.Cookies
-import com.github.sguzman.scala.ucsb.gold.miner.scrape.CourseScrape
+import com.github.sguzman.scala.ucsb.gold.miner.login.Login
+import com.github.sguzman.scala.ucsb.gold.miner.scrape.{CourseScrape, FineScrape}
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -19,10 +19,14 @@ object Main {
       System.exit(0)
     }
 
-    val cookies = Cookies(argv)
-    val classes = CourseScrape(cookies)
-    val filtered = CourseFilter(classes)
+    val cookies = Login(argv)
 
-    println()
+    val (_, _, classes, jb) = CourseScrape(cookies)
+    println(classes)
+    val _ = CourseFilter(classes)
+    val courseDescr = FineScrape(jb, classes)
+    println(courseDescr)
+
+    jb.quit()
   }
 }
