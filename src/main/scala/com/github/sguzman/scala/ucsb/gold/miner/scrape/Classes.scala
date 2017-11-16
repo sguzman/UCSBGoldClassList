@@ -7,8 +7,8 @@ import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
 import org.openqa.selenium.Cookie
 
-object Scrape {
-  def classes(cookies: Set[Cookie]) = {
+object Classes {
+  def apply(cookies: Set[Cookie]) = {
     val client = HttpClients.createDefault
 
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
