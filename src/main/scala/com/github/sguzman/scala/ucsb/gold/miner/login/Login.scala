@@ -2,12 +2,10 @@ package com.github.sguzman.scala.ucsb.gold.miner.login
 
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
 import com.machinepublishers.jbrowserdriver.{JBrowserDriver, Settings, Timezone}
-import org.openqa.selenium.{By, Cookie}
+import org.openqa.selenium.By
 
-import scala.collection.JavaConverters._
-
-object Cookies {
-  def apply(argv: Args): Set[Cookie]  = {
+object Login {
+  def apply(argv: Args): JBrowserDriver = {
     val (user, pass, submit) = if (argv.old)
       ("pageContent_PermPinLogin_userNameText", "pageContent_PermPinLogin_passwordText", "pageContent_PermPinLogin_loginButton")
     else
@@ -24,9 +22,7 @@ object Cookies {
     userText.sendKeys(argv.user)
     passText.sendKeys(argv.pass)
     button.click()
-    val set = Set[Cookie](jb.manage.getCookies.asScala.toArray: _*)
-    jb.quit()
 
-    set
+    jb
   }
 }
