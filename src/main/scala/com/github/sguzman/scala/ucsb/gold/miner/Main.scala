@@ -17,6 +17,8 @@ object Main {
       System.exit(0)
     }
 
-    println(login.LogIn.login(argv))
+    val cookies = Cookies(argv)
+    println(cookies)
+    println(scrape.Scrape.classes(cookies))
   }
 }
