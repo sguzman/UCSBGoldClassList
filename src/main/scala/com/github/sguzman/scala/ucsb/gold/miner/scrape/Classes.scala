@@ -10,7 +10,11 @@ import org.jsoup.Jsoup
 import org.openqa.selenium.Cookie
 
 object Classes {
-  def departments(cookies: Set[Cookie]) = {
+  def apply(cookie: Set[Cookie]) = {
+    (years, quarters, departments(cookie))
+  }
+
+  private def departments(cookies: Set[Cookie]) = {
     val client = HttpClients.createDefault
 
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
