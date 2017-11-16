@@ -24,11 +24,10 @@ resolvers ++= Seq(
 /** Source Dependencies */
 libraryDependencies ++= Seq(
   "com.beust" % "jcommander" % "1.72",
-  "com.google.code.gson" % "gson" % "2.8.2",
-  "org.apache.httpcomponents" % "httpclient" % "4.5.3",
   "com.machinepublishers" % "jbrowserdriver" % "0.17.11",
   "org.jsoup" % "jsoup" % "1.11.1",
-  "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % "test"
+  "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % "test",
+  "org.seleniumhq.selenium" % "selenium" % "2.0rc2"
 )
 
 /** Make sure to fork on run */
