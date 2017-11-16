@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
   "com.beust" % "jcommander" % "1.72",
   "com.google.code.gson" % "gson" % "2.8.2",
   "org.apache.httpcomponents" % "httpclient" % "4.5.3",
-  "com.machinepublishers" % "jbrowserdriver" % "0.17.11",,
+  "com.machinepublishers" % "jbrowserdriver" % "0.17.11",
   "org.jsoup" % "jsoup" % "1.11.1",
   "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % "test"
 )
