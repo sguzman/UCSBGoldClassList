@@ -24,4 +24,13 @@ object Classes {
     val body = EntityUtils.toString(resp.getEntity)
     body
   }
+
+  private def years = {
+    val la = ZoneId.of("America/Los_Angeles")
+    val zonedDateTime = ZonedDateTime.now(la)
+    val currentYear = zonedDateTime.getYear
+    List(0 to currentYear: _*)
+  }
+
+  private def quarters = List("Fall", "Winter", "Spring", "Summer")
 }
