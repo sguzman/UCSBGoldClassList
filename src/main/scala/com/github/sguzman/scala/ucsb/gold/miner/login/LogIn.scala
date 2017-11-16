@@ -5,8 +5,11 @@ import com.github.sguzman.scala.ucsb.gold.miner.args.Args
 import com.machinepublishers.jbrowserdriver.{JBrowserDriver, Settings, Timezone}
 import org.openqa.selenium.{By, Cookie}
 
+import scala.collection.JavaConverters._
+import scala.collection.mutable
+
 object LogIn {
-  def main(args: Array[String]): Set[Cookie]  = {
+  def login(args: Array[String]): mutable.Set[Cookie]  = {
     val argv = new Args
     val j = JCommander.newBuilder()
       .addObject(argv)
@@ -34,6 +37,6 @@ object LogIn {
     userText.sendKeys(argv.user)
     passText.sendKeys(argv.pass)
     button.click()
-    jb.manage.getCookies
+    jb.manage.getCookies.asScala
   }
 }
