@@ -1,7 +1,3 @@
-import sbt.Keys._
-
-import scala.concurrent.duration._
-
 /** Name of project */
 name := "UCSB Gold Miner"
 
@@ -13,12 +9,6 @@ version := "1.0"
 
 /** Scala version */
 scalaVersion := "2.12.4"
-
-/** Is this a snapshot version */
-isSnapshot := false
-
-/** Work offline wherever possible */
-offline := true
 
 /** Scalac parameters */
 scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding", "utf8")
@@ -41,14 +31,9 @@ libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.8.2",
   "org.apache.httpcomponents" % "httpclient" % "4.5.3",
   "com.google.guava" % "guava" % "23.0",
-  "org.scalatest" % "scalatest_2.12" % "3.2.0-SNAP9" % "test"
+  "net.sourceforge.htmlunit" % "htmlunit" % "2.28",
+  "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % "test"
 )
-
-/** Should tasks be executed in parallel */
-parallelExecution := true
-
-/** Poll interval for changed sources */
-pollInterval := 500.millis
 
 /** Make sure to fork on run */
 fork in run := true
