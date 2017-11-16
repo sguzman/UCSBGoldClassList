@@ -11,7 +11,7 @@ import org.openqa.selenium.Cookie
 
 import scala.collection.JavaConverters._
 
-object Classes {
+object CourseScrape {
   def apply(cookie: Set[Cookie]) = {
     (years, quarters, departments(cookie))
   }
