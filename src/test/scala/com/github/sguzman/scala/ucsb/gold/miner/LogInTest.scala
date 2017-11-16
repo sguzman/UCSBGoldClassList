@@ -2,7 +2,7 @@ package com.github.sguzman.scala.ucsb.gold.miner
 
 import org.scalatest.Assertions
 
-class MainTest extends org.scalatest.FunSuite {
+class LogInTest extends org.scalatest.FunSuite {
   test("A test should succeed") {
     Assertions.assert(true)
   }

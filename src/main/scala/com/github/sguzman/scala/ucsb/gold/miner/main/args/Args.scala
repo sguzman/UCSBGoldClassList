@@ -1,4 +1,4 @@
-package com.github.sguzman.scala.ucsb.gold.miner.args
+package com.github.sguzman.scala.ucsb.gold.miner.main.args
 
 import com.beust.jcommander.Parameter
 

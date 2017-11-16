@@ -1,19 +1,17 @@
-package com.github.sguzman.scala.ucsb.gold.miner
+package com.github.sguzman.scala.ucsb.gold.miner.main.login
 
-import java.net.{URI, URLEncoder}
+import java.net.URI
 import java.nio.charset.StandardCharsets
 
 import com.beust.jcommander.JCommander
-import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import org.apache.http.client.config.RequestConfig
+import com.github.sguzman.scala.ucsb.gold.miner.main.args.Args
 import org.apache.http.client.methods.{HttpGet, HttpPost}
-import org.apache.http.client.utils.{URIUtils, URLEncodedUtils}
 import org.apache.http.entity.ByteArrayEntity
-import org.apache.http.impl.client.{CloseableHttpClient, HttpClientBuilder, HttpClients}
+import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.util.EntityUtils
 import org.jsoup.Jsoup
 
-object Main {
+object LogIn {
   def main(args: Array[String]): Unit = {
     val argv = new Args
     val j = JCommander.newBuilder()
