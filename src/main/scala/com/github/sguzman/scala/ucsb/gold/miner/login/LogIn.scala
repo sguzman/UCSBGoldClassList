@@ -1,26 +1,13 @@
 package com.github.sguzman.scala.ucsb.gold.miner.login
 
-import com.beust.jcommander.JCommander
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
 import com.machinepublishers.jbrowserdriver.{JBrowserDriver, Settings, Timezone}
 import org.openqa.selenium.{By, Cookie}
 
 import scala.collection.JavaConverters._
-import scala.collection.mutable
 
 object LogIn {
-  def login(args: Array[String]): mutable.Set[Cookie]  = {
-    val argv = new Args
-    val j = JCommander.newBuilder()
-      .addObject(argv)
-      .build()
-
-    j.parse(args: _*)
-    if (argv.help) {
-      j.usage()
-      System.exit(0)
-    }
-
+  def login(argv: Args): Set[Cookie]  = {
     val (user, pass, submit) = if (argv.old)
       ("pageContent_PermPinLogin_userNameText", "pageContent_PermPinLogin_passwordText", "pageContent_PermPinLogin_loginButton")
     else
@@ -37,6 +24,9 @@ object LogIn {
     userText.sendKeys(argv.user)
     passText.sendKeys(argv.pass)
     button.click()
-    jb.manage.getCookies.asScala
+    val set = Set[Cookie](jb.manage.getCookies.asScala.toArray: _*)
+    jb.quit()
+
+    set
   }
 }
