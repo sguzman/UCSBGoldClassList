@@ -2,7 +2,7 @@ package com.github.sguzman.scala.ucsb.gold.miner
 
 import org.scalatest.Assertions
 
-class LogInTest extends org.scalatest.FunSuite {
+class CookiesTest extends org.scalatest.FunSuite {
   test("A test should succeed") {
     Assertions.assert(true)
   }

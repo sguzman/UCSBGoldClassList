@@ -2,6 +2,7 @@ package com.github.sguzman.scala.ucsb.gold.miner
 
 import com.beust.jcommander.JCommander
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
+import com.github.sguzman.scala.ucsb.gold.miner.login.Cookies
 
 object Main {
   def main(args: Array[String]): Unit = {

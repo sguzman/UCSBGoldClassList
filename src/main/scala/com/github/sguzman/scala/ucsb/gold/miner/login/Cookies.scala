@@ -6,8 +6,8 @@ import org.openqa.selenium.{By, Cookie}
 
 import scala.collection.JavaConverters._
 
-object LogIn {
-  def login(argv: Args): Set[Cookie]  = {
+object Cookies {
+  def apply(argv: Args): Set[Cookie]  = {
     val (user, pass, submit) = if (argv.old)
       ("pageContent_PermPinLogin_userNameText", "pageContent_PermPinLogin_passwordText", "pageContent_PermPinLogin_loginButton")
     else
