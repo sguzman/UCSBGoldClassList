@@ -9,6 +9,8 @@ import org.apache.http.util.EntityUtils
 import org.jsoup.Jsoup
 import org.openqa.selenium.Cookie
 
+import scala.collection.JavaConverters._
+
 object Classes {
   def apply(cookie: Set[Cookie]) = {
     (years, quarters, departments(cookie))
@@ -35,6 +37,9 @@ object Classes {
     val currentYear = zonedDateTime.getYear
     List(0 to currentYear: _*)
   }
+
+  private def years =
+    List(2010 to ZonedDateTime.now(ZoneId.of("America/Los_Angeles")).getYear: _*)
 
   private def quarters = List("Fall", "Winter", "Spring", "Summer")
 }
