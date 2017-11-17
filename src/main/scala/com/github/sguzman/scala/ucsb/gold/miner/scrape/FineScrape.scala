@@ -24,8 +24,9 @@ object FineScrape {
     buttonElement.click()
 
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
+    val body = jb.getPageSource
     jb.get(url)
 
-    jb.getPageSource
+    body
   }
 }
