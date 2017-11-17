@@ -19,10 +19,10 @@ object Main {
       System.exit(0)
     }
 
-    val cookies = Login(argv)
+    val jbInit = Login(argv)
 
-    val (_, _, classes, jb) = CourseScrape(cookies)
-    println(classes)
+    val (quarters, classes, jb) = CourseScrape(jbInit)
+    println(quarters, classes)
     val _ = CourseFilter(classes)
     val courseDescr = FineScrape(jb, classes)
     println(courseDescr)
