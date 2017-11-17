@@ -1,7 +1,7 @@
 package com.github.sguzman.scala.ucsb.gold.miner.login
 
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import com.machinepublishers.jbrowserdriver.{JBrowserDriver, Settings, Timezone}
+import com.machinepublishers.jbrowserdriver.{JBrowserDriver, Settings, Timezone, UserAgent}
 import org.openqa.selenium.By
 
 object Login {
@@ -10,8 +10,11 @@ object Login {
       ("pageContent_PermPinLogin_userNameText", "pageContent_PermPinLogin_passwordText", "pageContent_PermPinLogin_loginButton")
     else
       ("pageContent_userNameText", "pageContent_passwordText", "pageContent_loginButton")
-
-    val jb = new JBrowserDriver(Settings.builder.timezone(Timezone.AMERICA_LOSANGELES).build)
+    val jb = new JBrowserDriver(Settings
+      .builder
+      .timezone(Timezone.AMERICA_LOSANGELES)
+      .userAgent(UserAgent.CHROME)
+      .build)
     val url = "https://my.sa.ucsb.edu/gold/login.aspx"
     jb.get(url)
 
