@@ -8,29 +8,29 @@ import org.openqa.selenium.By
 import scala.collection.JavaConverters._
 
 object CourseScrape {
-  def apply(jb: JBrowserDriver): (List[Int], List[String], List[String], JBrowserDriver) =
-    (years, quarters, departments(jb), jb)
-
-  private def departments(jb: JBrowserDriver) = {
+  def apply(jb: JBrowserDriver): (List[String], List[String], JBrowserDriver) = {
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
     jb.get(url)
-
-    depts(jb)
+    (quarters(jb), departments(jb), jb)
   }
 
-  private def depts(jb: JBrowserDriver) = {
-    val body = jb.getPageSource
+  private def departments(jb: JBrowserDriver) = {
     val id = "pageContent_subjectAreaDropDown"
     val eles = jb.findElements(By.cssSelector(s"#$id > option"))
 
-    val selectDepts = eles.asScala.map(_.getAttribute("value"))
-    val departments = selectDepts.tail.toList
+    val selectDepts = eles.asScala.map(_.getAttribute("value")).toList
+    val departments = selectDepts.tail
 
     departments
   }
 
-  private def years =
-    List(2010 to ZonedDateTime.now(ZoneId.of("America/Los_Angeles")).getYear: _*)
+  private def quarters(jb: JBrowserDriver) = {
+    val id = "pageContent_quarterDropDown"
+    val eles = jb.findElements(By.cssSelector(s"#$id > option"))
 
-  private def quarters = List("Fall", "Winter", "Spring", "Summer")
+    val selectQuarts = eles.asScala.map(_.getAttribute("value")).toList
+    val quarters = selectQuarts.tail
+
+    quarters
+  }
 }
