@@ -1,7 +1,5 @@
 package com.github.sguzman.scala.ucsb.gold.miner.scrape
 
-import java.time.{ZoneId, ZonedDateTime}
-
 import com.machinepublishers.jbrowserdriver.JBrowserDriver
 import org.openqa.selenium.By
 
