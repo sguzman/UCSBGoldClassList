@@ -1,31 +1,44 @@
 package com.github.sguzman.scala.ucsb.gold.miner.login
 
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets.UTF_8
+
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import com.machinepublishers.jbrowserdriver.{JBrowserDriver, Settings, Timezone, UserAgent}
-import org.openqa.selenium.By
+import net.ruippeixotog.scalascraper.browser.JsoupBrowser
+import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
+import net.ruippeixotog.scalascraper.dsl.DSL._
+
+import scalaj.http.{Http, HttpRequest}
 
 object Login {
-  def apply(argv: Args): JBrowserDriver = {
-    val (user, pass, submit) = if (argv.old)
-      ("pageContent_PermPinLogin_userNameText", "pageContent_PermPinLogin_passwordText", "pageContent_PermPinLogin_loginButton")
-    else
-      ("pageContent_userNameText", "pageContent_passwordText", "pageContent_loginButton")
-    val jb = new JBrowserDriver(Settings
-      .builder
-      .timezone(Timezone.AMERICA_LOSANGELES)
-      .userAgent(UserAgent.CHROME)
-      .build)
-    val url = "https://my.sa.ucsb.edu/gold/login.aspx"
-    jb.get(url)
+  def get: HttpRequest = {
+    val login = "https://my.sa.ucsb.edu/gold/login.aspx"
+    Http(login)
+  }
 
-    val userText = jb.findElement(By.id(user))
-    val passText = jb.findElement(By.id(pass))
-    val button = jb.findElement(By.id(submit))
+  def apply(argv: Args): HttpRequest = {
+    val loginUrl = "https://my.sa.ucsb.edu/gold/login.aspx"
+    val resp = get
 
-    userText.sendKeys(argv.user)
-    passText.sendKeys(argv.pass)
-    button.click()
+    val soup = JsoupBrowser()
+    val doc = soup.parseString(resp.asString.body)
+    val hidden = doc >> elementList("""input[type="hidden"]""")
+    val hiddenVals = hidden.map(s => List(s.attr("name"), s.attr("value")))
+    val inputVals = if (argv.old) List(
+      List("ctl00%24pageContent%24PermPinLogin%24userNameText", argv.user),
+      List("ctl00%24pageContent%24PermPinLogin%24passwordText", argv.pass),
+      List("ctl00%24pageContent%24PermPinLogin%24loginButton.x", "0"),
+      List("ctl00%24pageContent%24PermPinLogin%24loginButton.y", "0")
+    ) else List(
+      List("ctl00%24pageContent%24userNameText", argv.user),
+      List("ctl00%24pageContent%24passwordText", argv.pass),
+      List("ctl00%24pageContent%24loginButton.x", "0"),
+      List("ctl00%24pageContent%24loginButton.y", "0")
+    )
 
-    jb
+    val bodyPairs = hiddenVals ++ inputVals
+    val form = bodyPairs.map(s => s"${s.head}=${URLEncoder.encode(s(1), UTF_8.toString)}").mkString("&")
+    resp
+      .postData(form)
   }
 }
