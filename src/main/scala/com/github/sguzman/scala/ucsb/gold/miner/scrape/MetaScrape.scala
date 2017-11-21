@@ -7,7 +7,7 @@ import net.ruippeixotog.scalascraper.dsl.DSL._
 import scalaj.http.{Http, HttpRequest}
 
 
-object CourseScrape {
+object MetaScrape {
   def get(req: HttpRequest): HttpRequest = {
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
     Http(url)
