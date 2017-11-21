@@ -1,34 +1,36 @@
 package com.github.sguzman.scala.ucsb.gold.miner.scrape
 
-import com.machinepublishers.jbrowserdriver.JBrowserDriver
-import org.openqa.selenium.By
+import net.ruippeixotog.scalascraper.browser.{Browser, JsoupBrowser}
+import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
+import net.ruippeixotog.scalascraper.dsl.DSL._
 
-import scala.collection.JavaConverters._
+import scalaj.http.{Http, HttpRequest}
+
 
 object CourseScrape {
-  def apply(jb: JBrowserDriver): (List[String], List[String], JBrowserDriver) = {
+  def get(req: HttpRequest): HttpRequest = {
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
-    jb.get(url)
-    (quarters(jb), departments(jb), jb)
+    Http(url)
+      .header("Cookie", req.asString.cookies.mkString("; "))
   }
 
-  private def departments(jb: JBrowserDriver) = {
+  def apply(req: HttpRequest): (List[String], List[String]) = {
+    val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
+    val req2 = get(req)
+    val doc = JsoupBrowser().parseString(req2.asString.body)
+
+    (quarters(doc), departments(doc))
+  }
+
+  private def departments(doc: Browser#DocumentType): List[String] = {
     val id = "pageContent_subjectAreaDropDown"
-    val eles = jb.findElements(By.cssSelector(s"#$id > option"))
-
-    val selectDepts = eles.asScala.map(_.getAttribute("value")).toList
-    val departments = selectDepts.tail
-
-    departments
+    val menu = doc >> elementList(s"#$id > option")
+    menu.map(_.attr("value"))
   }
 
-  private def quarters(jb: JBrowserDriver) = {
+  private def quarters(doc: Browser#DocumentType): List[String] = {
     val id = "pageContent_quarterDropDown"
-    val eles = jb.findElements(By.cssSelector(s"#$id > option"))
-
-    val selectQuarts = eles.asScala.map(_.getAttribute("value")).toList
-    val quarters = selectQuarts.tail
-
-    quarters
+    val menu = doc >> elementList(s"#$id > option")
+    menu.map(_.attr("value"))
   }
 }
