@@ -16,7 +16,19 @@ object Login {
     Http(login)
   }
 
-  def apply(argv: Args): HttpResponse[String] = {
+  def getSome(args: Args): Option[HttpResponse[String]] = {
+    val resp = Login(args).asString
+    if (resp.body.contains("Error")) None
+    else Some(resp)
+  }
+
+  def getUntilSome(args: Args): HttpResponse[String] = {
+    val resp = getSome(args)
+    if (resp.isEmpty) getUntilSome(args)
+    else resp.get
+  }
+
+  def apply(argv: Args): HttpRequest = {
     val loginUrl = "https://my.sa.ucsb.edu/gold/login.aspx"
     val resp = get
 
@@ -39,6 +51,7 @@ object Login {
     val bodyPairs = hiddenVals ++ inputVals
     val form = bodyPairs.map(s => s"${s.head}=${URLEncoder.encode(s(1), UTF_8.toString)}").mkString("&")
 
-    resp.postData(form).asString
+    lazy val request = resp.postData(form)
+    request
   }
 }
