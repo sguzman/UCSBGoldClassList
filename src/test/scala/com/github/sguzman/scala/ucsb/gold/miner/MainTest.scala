@@ -1,13 +1,10 @@
 package com.github.sguzman.scala.ucsb.gold.miner
 
-import org.scalatest.Assertions
-
-class CookiesTest extends org.scalatest.FunSuite {
+class MainTest extends org.scalatest.FunSuite {
   test("A test should succeed") {
-    Assertions.assert(true)
-  }
+    val user = System.getenv("USER")
+    val pass = System.getenv("PASS")
 
-  test("A test should succeed twice") {
-    Assertions.assert(true)
+    Main.main(Array("-u", user, "-p", pass, "-o"))
   }
 }
