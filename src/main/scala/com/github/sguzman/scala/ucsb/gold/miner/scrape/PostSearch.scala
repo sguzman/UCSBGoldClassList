@@ -7,14 +7,16 @@ import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
 
-import scalaj.http.{HttpRequest, HttpResponse}
+import scalaj.http.{Http, HttpResponse}
 
-object FineScrape {
-  def apply(quarters: List[String], departments: List[String], resp: => HttpResponse[String]): List[HttpRequest] =
-    departments.map(course("20174", _, resp))
+object PostSearch {
+  def apply(quarters: List[String], departments: List[String], logins: List[HttpResponse[String]]) = {
+    val courT = (t: (String, HttpResponse[String])) => course("20174", t._1, t._2)
+    departments.zip(logins).par.map(courT).map(_.asString).toList
+  }
 
-  private def course(quarter: String, department: String, request: => HttpResponse[String]) = {
-    val req = MetaScrape.get(request)
+  def course(quarter: String, department: String, response: HttpResponse[String]) = {
+    val req = MetaScrape.get(response)
 
     val soup = JsoupBrowser()
     val doc = soup.parseString(req.asString.body)
@@ -30,7 +32,13 @@ object FineScrape {
     val bodyPairs = hiddenVals ++ inputVals
     val form = bodyPairs.map(s => s"${s.head}=${URLEncoder.encode(s(1), UTF_8.toString)}").mkString("&")
 
-    lazy val resp = req.postData(form)
+    val resp = req.postData(form)
+    resp
+  }
+
+  def results(httpResponse: HttpResponse[String]) = {
+    val url = "https://my.sa.ucsb.edu/gold/ResultsFindCourses.aspx"
+    val resp = Http(url).header("Cookie", httpResponse.cookies.mkString("; "))
     resp
   }
 }
