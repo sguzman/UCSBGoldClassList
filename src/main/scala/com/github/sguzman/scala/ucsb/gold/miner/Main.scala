@@ -21,8 +21,13 @@ object Main {
 
     val resp = Login.getUntilSome(argv)
     val (quarters, departments) = MetaScrape(resp)
-    val logins = departments.par.map(s => Login.getUntilSome(argv)).toList
-    val courses = logins.indices.par.map(i => PostSearch("20174", departments(i), logins(i))).map(_.asString).toList
+    val arguments = departments.map(("20174", _))
+
+    val logins = arguments.par.map(_ => Login.getUntilSome(argv)).toList
+    val arguments2 = arguments.zip(logins).map(t => (t._1._1, t._1._2, t._2))
+
+    val courses = arguments2.par.map(i => PostSearch(i._1, i._2, i._3)).map(_.asString).toList
+
     val results = logins.par.map(PostSearch.results).map(_.asString)
     val text = results.par.map(CourseFilter.apply)
     text foreach println
