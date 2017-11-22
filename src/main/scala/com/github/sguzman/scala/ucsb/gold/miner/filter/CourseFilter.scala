@@ -11,7 +11,7 @@ object CourseFilter {
     val body = resp.body
     val doc = JsoupBrowser().parseString(body)
 
-    val text1 = doc >> elementList("#pageContent_CourseList > tbody > tr > td > table")
+    val text1 = doc >> elementList("#pageContent_CourseList > tbody > tr")
 
     text1.map(_.text)
   }
