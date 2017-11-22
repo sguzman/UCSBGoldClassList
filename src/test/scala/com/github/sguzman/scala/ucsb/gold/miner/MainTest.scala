@@ -5,6 +5,6 @@ class MainTest extends org.scalatest.FunSuite {
     val user = System.getenv("USER")
     val pass = System.getenv("PASS")
 
-    Main.main(Array("-u", user, "-p", pass, "-o"))
+    //Main.main(Array("-u", user, "-p", pass, "-o"))
   }
 }
