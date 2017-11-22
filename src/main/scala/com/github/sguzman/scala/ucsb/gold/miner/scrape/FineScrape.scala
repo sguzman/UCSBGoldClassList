@@ -1,32 +1,35 @@
 package com.github.sguzman.scala.ucsb.gold.miner.scrape
 
-import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import com.github.sguzman.scala.ucsb.gold.miner.login.Login
-import com.machinepublishers.jbrowserdriver.JBrowserDriver
-import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.Select
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets.UTF_8
+
+import net.ruippeixotog.scalascraper.browser.JsoupBrowser
+import net.ruippeixotog.scalascraper.dsl.DSL._
+import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
+
+import scalaj.http.HttpResponse
 
 object FineScrape {
-  def apply(jb: JBrowserDriver, cls: List[String]): String = {
-    cls.map(s => course(jb, s)).mkString
-  }
+  def apply(quarters: List[String], departments: List[String], resp: HttpResponse[String]) =
+    (for (d <- departments) yield d).map(course("20174", _, resp)).toList
 
-  private def course(jb: JBrowserDriver, str: String) = {
-    println(s"Processing $str")
+  private def course(quarter: String, department: String, request: HttpResponse[String]) = {
+    val req = MetaScrape.get(request)
 
-    val dropDownID = "pageContent_subjectAreaDropDown"
-    val selectElement = jb.findElement(By.id(dropDownID))
-    val select = new Select(selectElement)
+    val soup = JsoupBrowser()
+    val doc = soup.parseString(req.asString.body)
+    val hidden = doc >> elementList("""input[type="hidden"]""")
+    val hiddenVals = hidden.map(s => List(s.attr("name"), s.attr("value")))
+    val inputVals = List(
+      List("ctl00%24pageContent%24quarterDropDown", quarter),
+      List("ctl00%24pageContent%24subjectAreaDropDown", department),
+      List("ctl00%24pageContent%24searchButton.x", "0"),
+      List("ctl00%24pageContent%24searchButton.y", "0")
+    )
 
-    select.selectByValue(str)
-    val searchID = "pageContent_searchButton"
-    val buttonElement = jb.findElement(By.id(searchID))
-    buttonElement.click()
+    val bodyPairs = hiddenVals ++ inputVals
+    val form = bodyPairs.map(s => s"${s.head}=${URLEncoder.encode(s(1), UTF_8.toString)}").mkString("&")
 
-    val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
-    val body = jb.getPageSource
-    jb.get(url)
-
-    body
+    req.postData(form)
   }
 }
