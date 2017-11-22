@@ -3,7 +3,7 @@ package com.github.sguzman.scala.ucsb.gold.miner
 import com.beust.jcommander.JCommander
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
 import com.github.sguzman.scala.ucsb.gold.miner.login.Login
-import com.github.sguzman.scala.ucsb.gold.miner.scrape.{FineScrape, MetaScrape}
+import com.github.sguzman.scala.ucsb.gold.miner.scrape.{PostSearch, MetaScrape}
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -18,9 +18,11 @@ object Main {
       System.exit(0)
     }
 
-    val resp = Login(argv)
+    val resp = Login.getUntilSome(argv)
     val (quarters, departments) = MetaScrape(resp)
-    val courses = FineScrape(quarters, departments, resp)
-    println(courses)
+    val logins = departments.par.map(s => Login.getUntilSome(argv)).toList
+    val courses = PostSearch(quarters, departments, logins)
+    val results = logins.par.map(PostSearch.results).map(_.asString)
+    results foreach println
   }
 }
