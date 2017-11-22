@@ -4,22 +4,22 @@ import net.ruippeixotog.scalascraper.browser.{Browser, JsoupBrowser}
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 
-import scalaj.http.{Http, HttpRequest}
+import scalaj.http.{Http, HttpRequest, HttpResponse}
 
 
 object MetaScrape {
-  def get(req: HttpRequest): HttpRequest = {
+  def get(req: HttpResponse[String]): HttpRequest = {
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
     Http(url)
-      .header("Cookie", req.asString.cookies.mkString("; "))
+      .header("Cookie", req.cookies.mkString("; "))
   }
 
-  def apply(req: HttpRequest): (List[String], List[String]) = {
+  def apply(req: HttpResponse[String]): (List[String], List[String]) = {
     val url = "https://my.sa.ucsb.edu/gold/BasicFindCourses.aspx"
     val req2 = get(req)
     val doc = JsoupBrowser().parseString(req2.asString.body)
 
-    (quarters(doc), departments(doc))
+    (quarters(doc), departments(doc).tail)
   }
 
   private def departments(doc: Browser#DocumentType): List[String] = {
