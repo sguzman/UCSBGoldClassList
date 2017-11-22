@@ -8,7 +8,7 @@ import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 
-import scalaj.http.{Http, HttpRequest}
+import scalaj.http.{Http, HttpRequest, HttpResponse}
 
 object Login {
   def get: HttpRequest = {
@@ -16,7 +16,7 @@ object Login {
     Http(login)
   }
 
-  def apply(argv: Args): HttpRequest = {
+  def apply(argv: Args): HttpResponse[String] = {
     val loginUrl = "https://my.sa.ucsb.edu/gold/login.aspx"
     val resp = get
 
@@ -38,7 +38,7 @@ object Login {
 
     val bodyPairs = hiddenVals ++ inputVals
     val form = bodyPairs.map(s => s"${s.head}=${URLEncoder.encode(s(1), UTF_8.toString)}").mkString("&")
-    resp
-      .postData(form)
+
+    resp.postData(form).asString
   }
 }
