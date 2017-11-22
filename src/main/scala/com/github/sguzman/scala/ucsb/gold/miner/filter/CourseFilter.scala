@@ -15,4 +15,8 @@ object CourseFilter {
 
     text1.map(_.text)
   }
+
+  def noEmpty[A](courseList: List[A]) = {
+    courseList.nonEmpty
+  }
 }

@@ -30,6 +30,8 @@ object Main {
 
     val results = logins.par.map(PostSearch.results).map(_.asString)
     val text = results.par.map(CourseFilter.apply)
+    val nonEmpty = text.map(CourseFilter.noEmpty)
+
     text foreach println
   }
 }
