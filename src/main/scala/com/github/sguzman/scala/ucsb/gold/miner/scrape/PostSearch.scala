@@ -7,13 +7,13 @@ import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
 
-import scalaj.http.HttpResponse
+import scalaj.http.{HttpRequest, HttpResponse}
 
 object FineScrape {
-  def apply(quarters: List[String], departments: List[String], resp: HttpResponse[String]) =
-    (for (d <- departments) yield d).map(course("20174", _, resp)).toList
+  def apply(quarters: List[String], departments: List[String], resp: => HttpResponse[String]): List[HttpRequest] =
+    departments.map(course("20174", _, resp))
 
-  private def course(quarter: String, department: String, request: HttpResponse[String]) = {
+  private def course(quarter: String, department: String, request: => HttpResponse[String]) = {
     val req = MetaScrape.get(request)
 
     val soup = JsoupBrowser()
@@ -30,6 +30,7 @@ object FineScrape {
     val bodyPairs = hiddenVals ++ inputVals
     val form = bodyPairs.map(s => s"${s.head}=${URLEncoder.encode(s(1), UTF_8.toString)}").mkString("&")
 
-    req.postData(form)
+    lazy val resp = req.postData(form)
+    resp
   }
 }
