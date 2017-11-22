@@ -2,9 +2,8 @@ package com.github.sguzman.scala.ucsb.gold.miner
 
 import com.beust.jcommander.JCommander
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import com.github.sguzman.scala.ucsb.gold.miner.filter.CourseFilter
 import com.github.sguzman.scala.ucsb.gold.miner.login.Login
-import com.github.sguzman.scala.ucsb.gold.miner.scrape.{CourseScrape, FineScrape}
+import com.github.sguzman.scala.ucsb.gold.miner.scrape.{FineScrape, MetaScrape}
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -19,14 +18,9 @@ object Main {
       System.exit(0)
     }
 
-    val jbInit = Login(argv)
-
-    val (quarters, classes, jb) = CourseScrape(jbInit)
-    println(quarters, classes)
-    val _ = CourseFilter(classes)
-    val courseDescr = FineScrape(jb, classes)
-    println(courseDescr)
-
-    jb.quit()
+    val resp = Login(argv)
+    val (quarters, departments) = MetaScrape(resp)
+    val courses = FineScrape(quarters, departments, resp)
+    println(courses)
   }
 }
