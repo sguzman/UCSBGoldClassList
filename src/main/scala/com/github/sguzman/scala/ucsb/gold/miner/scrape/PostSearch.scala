@@ -7,10 +7,10 @@ import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
 
-import scalaj.http.{Http, HttpResponse}
+import scalaj.http.{Http, HttpRequest, HttpResponse}
 
 object PostSearch {
-  def apply(quarter: String, department: String, response: HttpResponse[String]) = {
+  def apply(quarter: String, department: String, response: HttpResponse[String]): HttpRequest = {
     val req = MetaScrape.get(response)
 
     val soup = JsoupBrowser()
@@ -31,7 +31,7 @@ object PostSearch {
     resp
   }
 
-  def results(httpResponse: HttpResponse[String]) = {
+  def results(httpResponse: HttpResponse[String]): HttpRequest = {
     val url = "https://my.sa.ucsb.edu/gold/ResultsFindCourses.aspx"
     val resp = Http(url).header("Cookie", httpResponse.cookies.mkString("; "))
     resp
