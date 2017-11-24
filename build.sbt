@@ -24,7 +24,6 @@ resolvers ++= Seq(
 /** Source Dependencies */
 libraryDependencies ++= Seq(
   "com.beust" % "jcommander" % "1.72",
-  "org.scalatest" %% "scalatest" % "3.2.0-SNAP9" % "test",
   "net.ruippeixotog" %% "scala-scraper" % "2.0.0",
   "org.scalaj" %% "scalaj-http" % "2.3.0",
   "org.slf4j" % "slf4j-api" % "1.7.25",
