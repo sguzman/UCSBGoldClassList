@@ -19,7 +19,10 @@ object MetaScrape {
     val req2 = get(req)
     val doc = JsoupBrowser().parseString(req2.asString.body)
 
-    (quarters(doc), departments(doc).tail)
+    val quarts = quarters(doc)
+    val depts = departments(doc)
+
+    (quarts, if (depts.nonEmpty) depts.tail else List())
   }
 
   private def departments(doc: Browser#DocumentType): List[String] = {
