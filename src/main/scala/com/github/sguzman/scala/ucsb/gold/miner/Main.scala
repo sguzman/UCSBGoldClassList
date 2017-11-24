@@ -1,6 +1,5 @@
 package com.github.sguzman.scala.ucsb.gold.miner
 
-import com.beust.jcommander.JCommander
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
 import com.github.sguzman.scala.ucsb.gold.miner.filter.CourseFilter
 import com.github.sguzman.scala.ucsb.gold.miner.login.Login
@@ -8,16 +7,19 @@ import com.github.sguzman.scala.ucsb.gold.miner.scrape.{MetaScrape, PostSearch}
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val argv = new Args
-    val j = JCommander.newBuilder()
-      .addObject(argv)
-      .build()
+    val argv = Args(args)
+    Main(argv)
+  }
 
-    j.parse(args: _*)
-    if (argv.help) {
-      j.usage()
-      System.exit(0)
-    }
+  def apply(argv: Args): Unit = {
+    apply(argv.user, argv.pass, argv.old)
+  }
+
+  def apply(user: String, pass: String, old: Boolean): Unit = {
+    val argv = new Args
+    argv.user = user
+    argv.pass = pass
+    argv.old = old
 
     val resp = Login.getUntilSome(argv)
     val (quarters, departments) = MetaScrape(resp)

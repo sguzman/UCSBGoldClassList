@@ -1,6 +1,6 @@
 package com.github.sguzman.scala.ucsb.gold.miner.args
 
-import com.beust.jcommander.Parameter
+import com.beust.jcommander.{JCommander, Parameter}
 
 class Args {
   @Parameter(
@@ -53,4 +53,21 @@ class Args {
     order = 4
   )
   var help: Boolean = false
+}
+
+object Args {
+  def apply(args: Array[String]): Args = {
+    val argv = new Args
+    val j = JCommander.newBuilder()
+      .addObject(argv)
+      .build()
+
+    j.parse(args: _*)
+    if (argv.help) {
+      j.usage()
+      System.exit(0)
+    }
+
+    argv
+  }
 }
