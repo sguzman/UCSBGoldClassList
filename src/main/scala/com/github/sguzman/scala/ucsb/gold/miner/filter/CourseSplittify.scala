@@ -15,7 +15,24 @@ object CourseSplittify {
     val courseIds = courses map (_ >> elementList("[id]"))
     val text = courseIds map (_ map (_.text))
 
-    val numCourses = text.map(t => (t.count(_.isEmpty) / 2, t))
-    numCourses
+    val numCourses = text.map(t => (t.count(_.isEmpty) / 2, t)).filter(_._1 != 0).filter(_._2.length > 4)
+    val splitByRow = numCourses.map(split)
+    splitByRow
+  }
+
+  def split(tup: (Int, List[String])): List[String] = {
+    val numOfRows = tup._1
+    val courseTexts = tup._2
+    val rowsInText = courseTexts(4)
+
+    if (numOfRows == 1) {
+      List(rowsInText)
+    } else {
+      val enrollCodePattern = """[1-9][0-9][0-9][0-9][0-9]"""
+      val enrollCodes = enrollCodePattern.r.findAllMatchIn(rowsInText).toList
+      val splitAtRegex = rowsInText.split(enrollCodePattern).tail
+      val addBackEnrollCode = enrollCodes.zip(splitAtRegex).map(t => t._1 + t._2)
+      addBackEnrollCode
+    }
   }
 }
