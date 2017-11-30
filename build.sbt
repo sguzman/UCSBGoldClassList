@@ -27,7 +27,8 @@ libraryDependencies ++= Seq(
   "net.ruippeixotog" %% "scala-scraper" % "2.0.0",
   "org.scalaj" %% "scalaj-http" % "2.3.0",
   "org.slf4j" % "slf4j-api" % "1.7.25",
-  "org.slf4j" % "slf4j-jdk14" % "1.7.25"
+  "org.slf4j" % "slf4j-jdk14" % "1.7.25",
+  "org.feijoas" % "mango_2.12" % "0.14"
 )
 
 /** Make sure to fork on run */
