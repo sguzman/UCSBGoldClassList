@@ -6,14 +6,16 @@ import net.ruippeixotog.scalascraper.dsl.DSL._
 
 import scalaj.http.HttpResponse
 
-object CourseFilter {
+object CourseSplittify {
   def apply(resp: HttpResponse[String]) = {
     val body = resp.body
     val doc = JsoupBrowser().parseString(body)
 
-    val head = doc >> elementList("[id]")
-    val text = head.map(_.text)
+    val courses = doc >> elementList("#pageContent_CourseList > tbody > tr")
+    val courseIds = courses map (_ >> elementList("[id]"))
+    val text = courseIds map (_ map (_.text))
 
-    text
+    val numCourses = text.map(t => (t.count(_.isEmpty) / 2, t))
+    numCourses
   }
 }

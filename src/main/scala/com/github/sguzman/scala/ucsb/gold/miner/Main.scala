@@ -1,7 +1,7 @@
 package com.github.sguzman.scala.ucsb.gold.miner
 
 import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import com.github.sguzman.scala.ucsb.gold.miner.filter.CourseFilter
+import com.github.sguzman.scala.ucsb.gold.miner.filter.CourseSplittify
 import com.github.sguzman.scala.ucsb.gold.miner.login.Login
 import com.github.sguzman.scala.ucsb.gold.miner.scrape.{MetaScrape, PostSearch}
 
@@ -31,7 +31,7 @@ object Main {
     val courses = arguments2.par.map(i => PostSearch(i._1, i._2, i._3)).map(_.asString).toList
 
     val results = logins.par.map(PostSearch.results).map(_.asString)
-    val text = results.par.map(CourseFilter.apply)
+    val text = results.par.map(CourseSplittify.apply)
 
     text foreach println
   }
