@@ -8,6 +8,7 @@ import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 
+import scala.util.{Failure, Success}
 import scalaj.http.{Http, HttpRequest, HttpResponse}
 
 object Login {
@@ -17,9 +18,11 @@ object Login {
   }
 
   def getSome(args: Args): Option[HttpResponse[String]] = {
-    val resp = Login(args).asString
-    if (resp.body.contains("Error")) None
-    else Some(resp)
+    val resp = util.Try(Login(args).asString)
+    resp match {
+      case Success(r) => if (r.body.contains("Error")) None else Some(r)
+      case Failure(e) => None
+    }
   }
 
   def getUntilSome(args: Args): HttpResponse[String] = {
