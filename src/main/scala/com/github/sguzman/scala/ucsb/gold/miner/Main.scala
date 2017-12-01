@@ -1,10 +1,5 @@
 package com.github.sguzman.scala.ucsb.gold.miner
 
-import com.github.sguzman.scala.ucsb.gold.miner.args.Args
-import com.github.sguzman.scala.ucsb.gold.miner.filter.CourseSplittify
-import com.github.sguzman.scala.ucsb.gold.miner.login.Login
-import com.github.sguzman.scala.ucsb.gold.miner.scrape.{MetaScrape, PostSearch}
-
 object Main {
   def main(args: Array[String]): Unit = {
     val argv = Args(args)
