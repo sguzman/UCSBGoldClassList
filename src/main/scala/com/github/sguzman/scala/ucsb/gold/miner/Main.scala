@@ -3,18 +3,6 @@ package com.github.sguzman.scala.ucsb.gold.miner
 object Main {
   def main(args: Array[String]): Unit = {
     val argv = Args(args)
-    Main(argv)
-  }
-
-  def apply(argv: Args): Unit = {
-    apply(argv.user, argv.pass, argv.old)
-  }
-
-  def apply(user: String, pass: String, old: Boolean): Unit = {
-    val argv = new Args
-    argv.user = user
-    argv.pass = pass
-    argv.old = old
 
     val resp = Login.getUntilSome(argv)
     val (quarters, departments) = MetaScrape(resp)
