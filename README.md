@@ -11,3 +11,4 @@ A scala project that retrieves UCSB classes from GOLD
 [![codecov](https://codecov.io/gh/sguzman/UCSBGoldMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/sguzman/UCSBGoldMiner)
 ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b8d32d97136a4164a50fdbebb9bc4ab8)](https://www.codacy.com/app/guzmansalv/UCSBGoldMiner?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sguzman/UCSBGoldMiner&amp;utm_campaign=Badge_Grade)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
